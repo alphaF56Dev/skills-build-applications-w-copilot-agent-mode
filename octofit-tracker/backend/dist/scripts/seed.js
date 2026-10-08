@@ -24,18 +24,18 @@ async function seedDatabase() {
             teams.set(data.name, savedTeam);
         }
         const userData = [
-            { name: 'Mona Chen', email: 'mona@example.com', teamName: 'Octocats', points: 245, weeklyPoints: 85 },
-            { name: 'Ada Brooks', email: 'ada@example.com', teamName: 'Octocats', points: 210, weeklyPoints: 72 },
-            { name: 'Sophie Laurent', email: 'sophie@example.com', teamName: 'Octocats', points: 185, weeklyPoints: 64 },
-            { name: 'Amir Patel', email: 'amir@example.com', teamName: 'Octocats', points: 160, weeklyPoints: 58 },
-            { name: 'Grace Kim', email: 'grace@example.com', teamName: 'Code Runners', points: 230, weeklyPoints: 90 },
-            { name: 'Linus Okafor', email: 'linus@example.com', teamName: 'Code Runners', points: 195, weeklyPoints: 68 },
-            { name: 'Elena Rossi', email: 'elena@example.com', teamName: 'Code Runners', points: 175, weeklyPoints: 61 },
-            { name: 'Noah Wilson', email: 'noah@example.com', teamName: 'Code Runners', points: 150, weeklyPoints: 52 },
-            { name: 'Priya Shah', email: 'priya@example.com', teamName: 'Trail Blazers', points: 220, weeklyPoints: 78 },
-            { name: 'Mateo Garcia', email: 'mateo@example.com', teamName: 'Trail Blazers', points: 190, weeklyPoints: 70 },
-            { name: 'Zoe Martin', email: 'zoe@example.com', teamName: 'Trail Blazers', points: 165, weeklyPoints: 56 },
-            { name: 'Ethan Brooks', email: 'ethan@example.com', teamName: 'Trail Blazers', points: 140, weeklyPoints: 48 },
+            { name: 'Mona Chen', email: 'mona@gmail.com', teamName: 'Octocats', points: 245, weeklyPoints: 85 },
+            { name: 'Ada Brooks', email: 'ada@gmail.com', teamName: 'Octocats', points: 210, weeklyPoints: 72 },
+            { name: 'Sophie Laurent', email: 'sophie@gmail.com', teamName: 'Octocats', points: 185, weeklyPoints: 64 },
+            { name: 'Amir Patel', email: 'amir@gmail.com', teamName: 'Octocats', points: 160, weeklyPoints: 58 },
+            { name: 'Grace Kim', email: 'grace@gmail.com', teamName: 'Code Runners', points: 230, weeklyPoints: 90 },
+            { name: 'Linus Okafor', email: 'linus@gmail.com', teamName: 'Code Runners', points: 195, weeklyPoints: 68 },
+            { name: 'Elena Rossi', email: 'elena@gmail.com', teamName: 'Code Runners', points: 175, weeklyPoints: 61 },
+            { name: 'Noah Wilson', email: 'noah@gmail.com', teamName: 'Code Runners', points: 150, weeklyPoints: 52 },
+            { name: 'Priya Shah', email: 'priya@gmail.com', teamName: 'Trail Blazers', points: 220, weeklyPoints: 78 },
+            { name: 'Mateo Garcia', email: 'mateo@gmail.com', teamName: 'Trail Blazers', points: 190, weeklyPoints: 70 },
+            { name: 'Zoe Martin', email: 'zoe@gmail.com', teamName: 'Trail Blazers', points: 165, weeklyPoints: 56 },
+            { name: 'Ethan Brooks', email: 'ethan@gmail.com', teamName: 'Trail Blazers', points: 140, weeklyPoints: 48 },
         ];
         const users = new Map();
         for (const data of userData) {
@@ -43,20 +43,20 @@ async function seedDatabase() {
             users.set(data.email, savedUser);
         }
         for (const [teamName, memberEmails] of [
-            ['Octocats', ['mona@example.com', 'ada@example.com', 'sophie@example.com', 'amir@example.com']],
-            ['Code Runners', ['grace@example.com', 'linus@example.com', 'elena@example.com', 'noah@example.com']],
-            ['Trail Blazers', ['priya@example.com', 'mateo@example.com', 'zoe@example.com', 'ethan@example.com']],
+            ['Octocats', ['mona@gmail.com', 'ada@gmail.com', 'sophie@gmail.com', 'amir@gmail.com']],
+            ['Code Runners', ['grace@gmail.com', 'linus@gmail.com', 'elena@gmail.com', 'noah@gmail.com']],
+            ['Trail Blazers', ['priya@gmail.com', 'mateo@gmail.com', 'zoe@gmail.com', 'ethan@gmail.com']],
         ]) {
             await Team.updateOne({ name: teamName }, { $set: { members: memberEmails.map((email) => users.get(email)?._id) } });
         }
         const today = new Date();
         today.setUTCHours(0, 0, 0, 0);
         const legacyActivityData = [
-            { email: 'mona@example.com', type: 'running', durationMinutes: 35, distanceKm: 5.2, daysAgo: 0 },
-            { email: 'mona@example.com', type: 'cycling', durationMinutes: 45, distanceKm: 12, daysAgo: 2 },
-            { email: 'ada@example.com', type: 'strength training', durationMinutes: 40, daysAgo: 1 },
-            { email: 'grace@example.com', type: 'running', durationMinutes: 28, distanceKm: 4.1, daysAgo: 0 },
-            { email: 'linus@example.com', type: 'hiking', durationMinutes: 90, distanceKm: 6.5, daysAgo: 3 },
+            { email: 'mona@gmail.com', type: 'running', durationMinutes: 35, distanceKm: 5.2, daysAgo: 0 },
+            { email: 'mona@gmail.com', type: 'cycling', durationMinutes: 45, distanceKm: 12, daysAgo: 2 },
+            { email: 'ada@gmail.com', type: 'strength training', durationMinutes: 40, daysAgo: 1 },
+            { email: 'grace@gmail.com', type: 'running', durationMinutes: 28, distanceKm: 4.1, daysAgo: 0 },
+            { email: 'linus@gmail.com', type: 'hiking', durationMinutes: 90, distanceKm: 6.5, daysAgo: 3 },
         ];
         for (const data of legacyActivityData) {
             const legacyDate = new Date(today);
@@ -74,42 +74,42 @@ async function seedDatabase() {
             });
         }
         const activityData = [
-            { email: 'mona@example.com', type: 'running', durationMinutes: 38, distanceKm: 5.4, daysAgo: 0, hour: 7 },
-            { email: 'mona@example.com', type: 'strength training', durationMinutes: 42, daysAgo: 2, hour: 18 },
-            { email: 'mona@example.com', type: 'cycling', durationMinutes: 55, distanceKm: 18.2, daysAgo: 5, hour: 9 },
-            { email: 'ada@example.com', type: 'yoga', durationMinutes: 35, daysAgo: 1, hour: 6 },
-            { email: 'ada@example.com', type: 'running', durationMinutes: 31, distanceKm: 4.3, daysAgo: 3, hour: 7 },
-            { email: 'ada@example.com', type: 'strength training', durationMinutes: 46, daysAgo: 6, hour: 17 },
-            { email: 'sophie@example.com', type: 'swimming', durationMinutes: 40, distanceKm: 1.5, daysAgo: 0, hour: 8 },
-            { email: 'sophie@example.com', type: 'running', durationMinutes: 44, distanceKm: 6.1, daysAgo: 4, hour: 7 },
-            { email: 'sophie@example.com', type: 'yoga', durationMinutes: 30, daysAgo: 8, hour: 18 },
-            { email: 'amir@example.com', type: 'strength training', durationMinutes: 50, daysAgo: 1, hour: 17 },
-            { email: 'amir@example.com', type: 'walking', durationMinutes: 36, distanceKm: 2.8, daysAgo: 4, hour: 12 },
-            { email: 'amir@example.com', type: 'cycling', durationMinutes: 48, distanceKm: 15.6, daysAgo: 9, hour: 9 },
-            { email: 'grace@example.com', type: 'running', durationMinutes: 33, distanceKm: 5.1, daysAgo: 0, hour: 6 },
-            { email: 'grace@example.com', type: 'strength training', durationMinutes: 45, daysAgo: 2, hour: 18 },
-            { email: 'grace@example.com', type: 'running', durationMinutes: 52, distanceKm: 8.2, daysAgo: 5, hour: 7 },
-            { email: 'linus@example.com', type: 'hiking', durationMinutes: 112, distanceKm: 7.4, daysAgo: 1, hour: 9 },
-            { email: 'linus@example.com', type: 'cycling', durationMinutes: 60, distanceKm: 20.5, daysAgo: 5, hour: 8 },
-            { email: 'linus@example.com', type: 'walking', durationMinutes: 28, distanceKm: 2.1, daysAgo: 10, hour: 12 },
-            { email: 'elena@example.com', type: 'pilates', durationMinutes: 45, daysAgo: 0, hour: 17 },
-            { email: 'elena@example.com', type: 'running', durationMinutes: 36, distanceKm: 4.8, daysAgo: 3, hour: 7 },
-            { email: 'elena@example.com', type: 'swimming', durationMinutes: 38, distanceKm: 1.4, daysAgo: 7, hour: 8 },
-            { email: 'noah@example.com', type: 'basketball', durationMinutes: 58, daysAgo: 2, hour: 18 },
-            { email: 'noah@example.com', type: 'strength training', durationMinutes: 40, daysAgo: 6, hour: 17 },
-            { email: 'noah@example.com', type: 'running', durationMinutes: 27, distanceKm: 3.6, daysAgo: 11, hour: 7 },
-            { email: 'priya@example.com', type: 'hiking', durationMinutes: 135, distanceKm: 9.8, daysAgo: 0, hour: 8 },
-            { email: 'priya@example.com', type: 'yoga', durationMinutes: 32, daysAgo: 3, hour: 6 },
-            { email: 'priya@example.com', type: 'running', durationMinutes: 47, distanceKm: 6.7, daysAgo: 7, hour: 7 },
-            { email: 'mateo@example.com', type: 'cycling', durationMinutes: 72, distanceKm: 25.4, daysAgo: 1, hour: 9 },
-            { email: 'mateo@example.com', type: 'strength training', durationMinutes: 48, daysAgo: 4, hour: 18 },
-            { email: 'mateo@example.com', type: 'hiking', durationMinutes: 98, distanceKm: 6.2, daysAgo: 9, hour: 8 },
-            { email: 'zoe@example.com', type: 'running', durationMinutes: 29, distanceKm: 3.9, daysAgo: 2, hour: 7 },
-            { email: 'zoe@example.com', type: 'swimming', durationMinutes: 42, distanceKm: 1.6, daysAgo: 5, hour: 8 },
-            { email: 'zoe@example.com', type: 'yoga', durationMinutes: 36, daysAgo: 12, hour: 18 },
-            { email: 'ethan@example.com', type: 'walking', durationMinutes: 46, distanceKm: 3.5, daysAgo: 1, hour: 12 },
-            { email: 'ethan@example.com', type: 'strength training', durationMinutes: 38, daysAgo: 6, hour: 17 },
-            { email: 'ethan@example.com', type: 'running', durationMinutes: 34, distanceKm: 4.6, daysAgo: 13, hour: 7 },
+            { email: 'mona@gmail.com', type: 'running', durationMinutes: 38, distanceKm: 5.4, daysAgo: 0, hour: 7 },
+            { email: 'mona@gmail.com', type: 'strength training', durationMinutes: 42, daysAgo: 2, hour: 18 },
+            { email: 'mona@gmail.com', type: 'cycling', durationMinutes: 55, distanceKm: 18.2, daysAgo: 5, hour: 9 },
+            { email: 'ada@gmail.com', type: 'yoga', durationMinutes: 35, daysAgo: 1, hour: 6 },
+            { email: 'ada@gmail.com', type: 'running', durationMinutes: 31, distanceKm: 4.3, daysAgo: 3, hour: 7 },
+            { email: 'ada@gmail.com', type: 'strength training', durationMinutes: 46, daysAgo: 6, hour: 17 },
+            { email: 'sophie@gmail.com', type: 'swimming', durationMinutes: 40, distanceKm: 1.5, daysAgo: 0, hour: 8 },
+            { email: 'sophie@gmail.com', type: 'running', durationMinutes: 44, distanceKm: 6.1, daysAgo: 4, hour: 7 },
+            { email: 'sophie@gmail.com', type: 'yoga', durationMinutes: 30, daysAgo: 8, hour: 18 },
+            { email: 'amir@gmail.com', type: 'strength training', durationMinutes: 50, daysAgo: 1, hour: 17 },
+            { email: 'amir@gmail.com', type: 'walking', durationMinutes: 36, distanceKm: 2.8, daysAgo: 4, hour: 12 },
+            { email: 'amir@gmail.com', type: 'cycling', durationMinutes: 48, distanceKm: 15.6, daysAgo: 9, hour: 9 },
+            { email: 'grace@gmail.com', type: 'running', durationMinutes: 33, distanceKm: 5.1, daysAgo: 0, hour: 6 },
+            { email: 'grace@gmail.com', type: 'strength training', durationMinutes: 45, daysAgo: 2, hour: 18 },
+            { email: 'grace@gmail.com', type: 'running', durationMinutes: 52, distanceKm: 8.2, daysAgo: 5, hour: 7 },
+            { email: 'linus@gmail.com', type: 'hiking', durationMinutes: 112, distanceKm: 7.4, daysAgo: 1, hour: 9 },
+            { email: 'linus@gmail.com', type: 'cycling', durationMinutes: 60, distanceKm: 20.5, daysAgo: 5, hour: 8 },
+            { email: 'linus@gmail.com', type: 'walking', durationMinutes: 28, distanceKm: 2.1, daysAgo: 10, hour: 12 },
+            { email: 'elena@gmail.com', type: 'pilates', durationMinutes: 45, daysAgo: 0, hour: 17 },
+            { email: 'elena@gmail.com', type: 'running', durationMinutes: 36, distanceKm: 4.8, daysAgo: 3, hour: 7 },
+            { email: 'elena@gmail.com', type: 'swimming', durationMinutes: 38, distanceKm: 1.4, daysAgo: 7, hour: 8 },
+            { email: 'noah@gmail.com', type: 'basketball', durationMinutes: 58, daysAgo: 2, hour: 18 },
+            { email: 'noah@gmail.com', type: 'strength training', durationMinutes: 40, daysAgo: 6, hour: 17 },
+            { email: 'noah@gmail.com', type: 'running', durationMinutes: 27, distanceKm: 3.6, daysAgo: 11, hour: 7 },
+            { email: 'priya@gmail.com', type: 'hiking', durationMinutes: 135, distanceKm: 9.8, daysAgo: 0, hour: 8 },
+            { email: 'priya@gmail.com', type: 'yoga', durationMinutes: 32, daysAgo: 3, hour: 6 },
+            { email: 'priya@gmail.com', type: 'running', durationMinutes: 47, distanceKm: 6.7, daysAgo: 7, hour: 7 },
+            { email: 'mateo@gmail.com', type: 'cycling', durationMinutes: 72, distanceKm: 25.4, daysAgo: 1, hour: 9 },
+            { email: 'mateo@gmail.com', type: 'strength training', durationMinutes: 48, daysAgo: 4, hour: 18 },
+            { email: 'mateo@gmail.com', type: 'hiking', durationMinutes: 98, distanceKm: 6.2, daysAgo: 9, hour: 8 },
+            { email: 'zoe@gmail.com', type: 'running', durationMinutes: 29, distanceKm: 3.9, daysAgo: 2, hour: 7 },
+            { email: 'zoe@gmail.com', type: 'swimming', durationMinutes: 42, distanceKm: 1.6, daysAgo: 5, hour: 8 },
+            { email: 'zoe@gmail.com', type: 'yoga', durationMinutes: 36, daysAgo: 12, hour: 18 },
+            { email: 'ethan@gmail.com', type: 'walking', durationMinutes: 46, distanceKm: 3.5, daysAgo: 1, hour: 12 },
+            { email: 'ethan@gmail.com', type: 'strength training', durationMinutes: 38, daysAgo: 6, hour: 17 },
+            { email: 'ethan@gmail.com', type: 'running', durationMinutes: 34, distanceKm: 4.6, daysAgo: 13, hour: 7 },
         ];
         for (const data of activityData) {
             const completedAt = new Date(today);
