@@ -1,0 +1,22 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.app-navbar {
+  background: #173b2c;
+}
+
+.app-navbar .nav-link {
+  border-radius: 999px;
+}
+
+.app-navbar .nav-link.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.app-shell main {
+  flex: 1;
+}
