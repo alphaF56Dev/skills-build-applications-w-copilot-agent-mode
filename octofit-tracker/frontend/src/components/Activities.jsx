@@ -1,5 +1,8 @@
 import CollectionPage from './CollectionPage.jsx'
 import { formatDate, referenceName } from './formatters.js'
+import { fetchCollection as fetch } from '../api.js'
+
+const endpoint = '/api/activities/'
 
 const columns = [
   { label: 'Athlete', render: (activity) => referenceName(activity.user) },
@@ -22,7 +25,8 @@ function Activities() {
     <CollectionPage
       columns={columns}
       description="Recent training sessions logged by the community."
-      endpoint="/api/activities/"
+      endpoint={endpoint}
+      loadCollection={fetch}
       title="Activities"
     />
   )

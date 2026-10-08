@@ -1,4 +1,7 @@
 import CollectionPage from './CollectionPage.jsx'
+import { fetchCollection as fetch } from '../api.js'
+
+const endpoint = '/api/teams/'
 
 const columns = [
   { label: 'Team', render: (team) => team.name ?? '—' },
@@ -14,7 +17,8 @@ function Teams() {
     <CollectionPage
       columns={columns}
       description="Explore teams and their community points."
-      endpoint="/api/teams/"
+      endpoint={endpoint}
+      loadCollection={fetch}
       title="Teams"
     />
   )

@@ -1,5 +1,8 @@
 import CollectionPage from './CollectionPage.jsx'
 import { referenceName } from './formatters.js'
+import { fetchCollection as fetch } from '../api.js'
+
+const endpoint = '/api/users/'
 
 const columns = [
   { label: 'Name', render: (user) => user.name ?? '—' },
@@ -13,7 +16,8 @@ function Users() {
     <CollectionPage
       columns={columns}
       description="Meet the athletes participating in OctoFit Tracker."
-      endpoint="/api/users/"
+      endpoint={endpoint}
+      loadCollection={fetch}
       title="Users"
     />
   )

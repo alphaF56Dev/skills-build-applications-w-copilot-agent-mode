@@ -1,4 +1,7 @@
 import CollectionPage from './CollectionPage.jsx'
+import { fetchCollection as fetch } from '../api.js'
+
+const endpoint = '/api/workouts/'
 
 const columns = [
   { label: 'Workout', render: (workout) => workout.name ?? '—' },
@@ -21,7 +24,8 @@ function Workouts() {
     <CollectionPage
       columns={columns}
       description="Find a workout and review the activities it includes."
-      endpoint="/api/workouts/"
+      endpoint={endpoint}
+      loadCollection={fetch}
       title="Workouts"
     />
   )

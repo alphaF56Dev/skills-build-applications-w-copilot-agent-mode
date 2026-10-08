@@ -1,5 +1,8 @@
 import CollectionPage from './CollectionPage.jsx'
 import { referenceName } from './formatters.js'
+import { fetchCollection as fetch } from '../api.js'
+
+const endpoint = '/api/leaderboard/'
 
 const columns = [
   { label: 'Rank', render: (entry) => entry.rank ?? '—' },
@@ -14,7 +17,8 @@ function Leaderboard() {
     <CollectionPage
       columns={columns}
       description="See how athletes are performing across the leaderboard."
-      endpoint="/api/leaderboard/"
+      endpoint={endpoint}
+      loadCollection={fetch}
       title="Leaderboard"
     />
   )
