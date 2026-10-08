@@ -23,11 +23,13 @@ async function seedDatabase(): Promise<void> {
     ];
     const teams = new Map<string, (typeof Team.prototype)>();
     for (const data of teamData) {
-      const savedTeam = await Team.findOneAndUpdate(
-        { name: data.name },
-        { $set: { points: data.points } },
-        { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true },
-      );
+      let savedTeam = await Team.findOne({ name: data.name });
+      if (savedTeam) {
+        savedTeam.points = data.points;
+        await savedTeam.save();
+      } else {
+        savedTeam = await Team.create(data);
+      }
       teams.set(data.name, savedTeam);
     }
 
@@ -47,11 +49,18 @@ async function seedDatabase(): Promise<void> {
     ];
     const users = new Map<string, (typeof User.prototype)>();
     for (const data of userData) {
-      const savedUser = await User.findOneAndUpdate(
-        { email: data.email },
-        { $set: { name: data.name, team: teams.get(data.teamName)?._id, points: data.points } },
-        { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true },
-      );
+      let savedUser = await User.findOne({ email: data.email });
+      const userValues = {
+        name: data.name,
+        team: teams.get(data.teamName)?._id,
+        points: data.points,
+      };
+      if (savedUser) {
+        savedUser.set(userValues);
+        await savedUser.save();
+      } else {
+        savedUser = await User.create({ ...userValues, email: data.email });
+      }
       users.set(data.email, savedUser);
     }
 
@@ -133,16 +142,23 @@ async function seedDatabase(): Promise<void> {
       const completedAt = new Date(today);
       completedAt.setUTCDate(completedAt.getUTCDate() - data.daysAgo);
       completedAt.setUTCHours(data.hour, 0, 0, 0);
-      await Activity.findOneAndUpdate(
-        { user: users.get(data.email)?._id, type: data.type, completedAt },
-        {
-          $set: {
-            durationMinutes: data.durationMinutes,
-            distanceKm: data.distanceKm,
-          },
-        },
-        { upsert: true, setDefaultsOnInsert: true },
-      );
+      const user = users.get(data.email);
+      const activity = await Activity.findOne({ user: user?._id, type: data.type, completedAt });
+      const activityValues = {
+        durationMinutes: data.durationMinutes,
+        distanceKm: data.distanceKm,
+      };
+      if (activity) {
+        activity.set(activityValues);
+        await activity.save();
+      } else {
+        await Activity.create({
+          ...activityValues,
+          user: user?._id,
+          type: data.type,
+          completedAt,
+        });
+      }
     }
 
     for (const period of ['all-time', 'weekly'] as const) {
@@ -153,20 +169,37 @@ async function seedDatabase(): Promise<void> {
           first[period === 'all-time' ? 'points' : 'weeklyPoints'],
         )
         .entries()) {
-        await Leaderboard.findOneAndUpdate(
-          { user: users.get(data.email)?._id, team: data.team?._id, period },
-          {
-            $set: {
-              points: data[period === 'all-time' ? 'points' : 'weeklyPoints'],
-              rank: rank + 1,
-            },
-          },
-          { upsert: true, setDefaultsOnInsert: true },
-        );
+        const user = users.get(data.email);
+        const leaderboardValues = {
+          points: data[period === 'all-time' ? 'points' : 'weeklyPoints'],
+          rank: rank + 1,
+        };
+        const leaderboard = await Leaderboard.findOne({
+          user: user?._id,
+          team: data.team?._id,
+          period,
+        });
+        if (leaderboard) {
+          leaderboard.set(leaderboardValues);
+          await leaderboard.save();
+        } else {
+          await Leaderboard.create({
+            ...leaderboardValues,
+            user: user?._id,
+            team: data.team?._id,
+            period,
+          });
+        }
       }
     }
 
-    const workoutData = [
+    const workoutData: Array<{
+      name: string;
+      description: string;
+      difficulty: 'beginner' | 'intermediate' | 'advanced';
+      durationMinutes: number;
+      activities: string[];
+    }> = [
       {
         name: 'Interval Run',
         description: 'Build aerobic fitness with six controlled efforts and easy recovery jogs.',
@@ -226,11 +259,13 @@ async function seedDatabase(): Promise<void> {
     ];
     await Workout.deleteMany({ name: { $in: ['Strength and Stability', 'Recovery Ride'] } });
     for (const data of workoutData) {
-      await Workout.findOneAndUpdate(
-        { name: data.name },
-        { $set: data },
-        { upsert: true, setDefaultsOnInsert: true },
-      );
+      const workout = await Workout.findOne({ name: data.name });
+      if (workout) {
+        workout.set(data);
+        await workout.save();
+      } else {
+        await Workout.create(data);
+      }
     }
 
     console.log('Database seeding complete');
