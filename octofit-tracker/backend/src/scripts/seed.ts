@@ -137,7 +137,7 @@ async function seedDatabase(): Promise<void> {
       { email: 'ethan@gmail.com', type: 'walking', durationMinutes: 46, distanceKm: 3.5, daysAgo: 1, hour: 12 },
       { email: 'ethan@gmail.com', type: 'strength training', durationMinutes: 38, daysAgo: 6, hour: 17 },
       { email: 'ethan@gmail.com', type: 'running', durationMinutes: 34, distanceKm: 4.6, daysAgo: 13, hour: 7 },
-    ];
+    ]; 
     for (const data of activityData) {
       const completedAt = new Date(today);
       completedAt.setUTCDate(completedAt.getUTCDate() - data.daysAgo);
